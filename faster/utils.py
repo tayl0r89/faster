@@ -10,3 +10,15 @@ def getAllTeams(games):
 
 def getRushSeries(games):
     return ((games["FTHG"] > 0) & (games["FTAG"] > 0)).map(lambda x: 1 if x else 0)
+
+def last6HomeStatAverage(games, teamId, before, stat):
+    filtered = games[games["Date"] < before]
+    if not filtered.empty:
+        return filtered[filtered["HomeTeamID"] == teamId].iloc[-6:,:][stat].sum()
+    return 0
+
+def last6AwayStatAverage(games, teamId, before, stat):
+    filtered = games[games["Date"] < before]
+    if not filtered.empty:
+        return filtered[filtered["AwayTeamID"] == teamId].iloc[-6:,:][stat].sum()
+    return 0
